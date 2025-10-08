@@ -13,14 +13,6 @@ namespace ITI_SC_Project.Context.Configurations
             builder.Property(r => r.Id)
                    .ValueGeneratedOnAdd();
 
-            builder.Property(r => r.Type)
-                   .HasMaxLength(50)
-                   .IsRequired();
-
-            builder.Property(r => r.Price)
-                   .HasColumnType("decimal(18,2)")
-                   .IsRequired();
-
             builder.HasMany(r => r.Bookings)
                    .WithOne(b => b.Room)
                    .HasForeignKey(b => b.RoomId)

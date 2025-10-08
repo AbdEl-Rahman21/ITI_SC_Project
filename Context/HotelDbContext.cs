@@ -9,6 +9,7 @@ namespace ITI_SC_Project.Context
         public DbSet<Worker> Workers { get; set; }
         public DbSet<Resident> Residents { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<BoardingType> BoardingTypes { get; set; }
 
@@ -19,6 +20,8 @@ namespace ITI_SC_Project.Context
             modelBuilder.ApplyConfiguration(new ResidentConfiguration());
 
             modelBuilder.ApplyConfiguration(new RoomConfiguration());
+
+            modelBuilder.ApplyConfiguration(new RoomTypeConfiguration());
 
             modelBuilder.ApplyConfiguration(new BookingConfiguration());
 
