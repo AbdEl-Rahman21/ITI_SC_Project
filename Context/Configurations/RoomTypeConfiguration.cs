@@ -27,7 +27,7 @@ namespace ITI_SC_Project.Context.Configurations
             builder.HasMany(rt => rt.Rooms)
                    .WithOne(r => r.RoomType)
                    .HasForeignKey(r => r.RoomTypeId)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

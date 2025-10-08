@@ -38,7 +38,7 @@ namespace ITI_SC_Project.Context.Configurations
             builder.HasMany(r => r.Bookings)
                    .WithOne(b => b.Resident)
                    .HasForeignKey(b => b.ResidentId)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

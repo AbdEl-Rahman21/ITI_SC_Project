@@ -27,7 +27,7 @@ namespace ITI_SC_Project.Context.Configurations
             builder.HasMany(bt => bt.Bookings)
                    .WithOne(b => b.BoardingType)
                    .HasForeignKey(b => b.BoardingTypeId)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

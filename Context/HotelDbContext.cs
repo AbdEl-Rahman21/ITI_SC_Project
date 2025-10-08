@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITI_SC_Project.Context
 {
-    public class HotelDbContext : DbContext
+    public class HotelDbContext(DbContextOptions options) : DbContext(options)
     {
         public DbSet<Worker> Workers { get; set; }
         public DbSet<Resident> Residents { get; set; }
