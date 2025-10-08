@@ -12,6 +12,8 @@ namespace ITI_SC_Project.Context
         {
             modelBuilder.ApplyConfiguration(new WorkerConfiguration());
 
+            modelBuilder.ApplyConfiguration(new ResidentConfiguration());
+
             base.OnModelCreating(modelBuilder);
         }
     }
