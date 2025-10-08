@@ -10,6 +10,7 @@ namespace ITI_SC_Project.Context
         public DbSet<Resident> Residents { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<BoardingType> BoardingTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,8 @@ namespace ITI_SC_Project.Context
             modelBuilder.ApplyConfiguration(new RoomConfiguration());
 
             modelBuilder.ApplyConfiguration(new BookingConfiguration());
+
+            modelBuilder.ApplyConfiguration(new BoardingTypeConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

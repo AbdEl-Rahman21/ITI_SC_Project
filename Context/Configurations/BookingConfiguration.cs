@@ -19,10 +19,6 @@ namespace ITI_SC_Project.Context.Configurations
             builder.Property(b => b.CheckOutDate)
                    .IsRequired();
 
-            builder.Property(b => b.BoardingType)
-                   .HasMaxLength(50)
-                   .IsRequired();
-
             builder.Property(b => b.TotalCost)
                    .HasColumnType("decimal(18,2)")
                    .IsRequired();
