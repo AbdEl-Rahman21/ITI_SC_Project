@@ -1,3 +1,6 @@
+using ITI_SC_Project.Context;
+using Microsoft.EntityFrameworkCore;
+
 namespace ITI_SC_Project
 {
     public class Program
@@ -8,6 +11,11 @@ namespace ITI_SC_Project
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<HotelDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("sql"));
+            });
 
             var app = builder.Build();
 
