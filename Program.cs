@@ -1,6 +1,10 @@
+using AutoMapper;
 using ITI_SC_Project.Contexts;
+using ITI_SC_Project.Profiles;
 using ITI_SC_Project.Repositories;
+using ITI_SC_Project.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace ITI_SC_Project
 {
@@ -20,6 +24,17 @@ namespace ITI_SC_Project
 
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<DomainToViewModelProfile>();
+            }, new NullLoggerFactory());
+
+            mapperConfig.AssertConfigurationIsValid();
+
+            builder.Services.AddSingleton(mapperConfig.CreateMapper());
+
+            builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 
             var app = builder.Build();
 
