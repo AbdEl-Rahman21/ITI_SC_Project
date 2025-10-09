@@ -8,14 +8,6 @@ namespace ITI_SC_Project.ViewModels
         public int Id { get; set; }
 
         [Required]
-        [Display(Name = "Resident")]
-        public int ResidentId { get; set; }
-
-        [Required]
-        [Display(Name = "Room")]
-        public int RoomId { get; set; }
-
-        [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Check-In Date")]
         public DateOnly CheckInDate { get; set; }
@@ -26,14 +18,22 @@ namespace ITI_SC_Project.ViewModels
         [DateGreaterThan(nameof(CheckInDate), ErrorMessage = "Check-out must be after check-in.")]
         public DateOnly CheckOutDate { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        [Display(Name = "Boarding Type")]
-        public string BoardingType { get; set; } = null!;
-
         public decimal TotalCost { get; set; }
+
+        [Required]
+        [Display(Name = "Room")]
+        public int RoomId { get; set; }
+
+        [Required]
+        [Display(Name = "Resident")]
+        public int ResidentId { get; set; }
+
+        [Required]
+        [Display(Name = "Boarding Type")]
+        public int BoardingTypeId { get; set; }
 
         public string? RoomTypeName { get; set; }
         public string? ResidentName { get; set; }
+        public string? BoardingTypeName { get; set; }
     }
 }

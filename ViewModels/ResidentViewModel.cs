@@ -25,8 +25,5 @@ namespace ITI_SC_Project.ViewModels
         [PhoneNumber]
         [StringLength(20)]
         public string Phone { get; set; } = null!;
-
-        [Display(Name = "Active")]
-        public bool IsActive { get; set; } = true;
     }
 }

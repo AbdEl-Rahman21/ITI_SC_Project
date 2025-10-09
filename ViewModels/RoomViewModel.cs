@@ -9,5 +9,7 @@ namespace ITI_SC_Project.ViewModels
         [Required]
         [Display(Name = "Room Type")]
         public int RoomTypeId { get; set; }
+
+        public string? RoomTypeName { get; set; }
     }
 }
