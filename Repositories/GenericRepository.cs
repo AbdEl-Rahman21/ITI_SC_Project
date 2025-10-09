@@ -27,6 +27,11 @@ namespace ITI_SC_Project.Repositories
 
         public void Update(T entity) => dbSet.Update(entity);
 
-        public void Delete(T entity) => dbSet.Remove(entity);
+        public async Task DeleteAsync(object id)
+        {
+            var entity = await dbSet.FindAsync(id);
+
+            if (entity != null) dbSet.Remove(entity);
+        }
     }
 }

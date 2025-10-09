@@ -41,11 +41,9 @@ namespace ITI_SC_Project.Services
             await unitOfWork.SaveAsync();
         }
 
-        public async Task DeleteAsync<TViewModel>(TViewModel viewModel)
+        public async Task DeleteAsync(object id)
         {
-            var entity = mapper.Map<TEntity>(viewModel);
-
-            repository.Delete(entity);
+            await repository.DeleteAsync(id);
 
             await unitOfWork.SaveAsync();
         }

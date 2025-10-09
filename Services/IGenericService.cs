@@ -10,6 +10,6 @@
 
         Task UpdateAsync<TViewModel>(TViewModel viewModel);
 
-        Task DeleteAsync<TViewModel>(TViewModel viewModel);
+        Task DeleteAsync(object id);
     }
 }

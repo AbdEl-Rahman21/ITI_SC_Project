@@ -12,6 +12,6 @@ namespace ITI_SC_Project.Repositories
 
         void Update(T entity);
 
-        void Delete(T entity);
+        Task DeleteAsync(object id);
     }
 }
