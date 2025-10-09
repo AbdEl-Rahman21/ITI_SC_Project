@@ -11,7 +11,7 @@ namespace ITI_SC_Project.ViewModels
         public string Name { get; set; } = null!;
 
         [Range(0, 10000, ErrorMessage = "Modifier must be between 0 and 10,000.")]
-        [Display(Name = "Price Modifier")]
+        [Display(Name = "Price Modifier (%)")]
         public decimal PriceModifier { get; set; }
     }
 }

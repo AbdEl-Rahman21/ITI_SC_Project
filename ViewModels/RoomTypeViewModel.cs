@@ -13,7 +13,7 @@ namespace ITI_SC_Project.ViewModels
 
         [Required]
         [Range(0, 100000, ErrorMessage = "Base price must be between 0 and 100,000.")]
-        [Display(Name = "Base Price (per night)")]
+        [Display(Name = "Base Price (Per Night)")]
         [DataType(DataType.Currency)]
         public decimal BasePrice { get; set; }
     }
