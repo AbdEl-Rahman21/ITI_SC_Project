@@ -32,9 +32,6 @@ namespace ITI_SC_Project.Context.Configurations
                    .HasMaxLength(20)
                    .IsRequired();
 
-            builder.Property(r => r.IsActive)
-                   .HasDefaultValue(true);
-
             builder.HasMany(r => r.Bookings)
                    .WithOne(b => b.Resident)
                    .HasForeignKey(b => b.ResidentId)

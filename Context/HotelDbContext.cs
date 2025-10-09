@@ -6,7 +6,6 @@ namespace ITI_SC_Project.Context
 {
     public class HotelDbContext(DbContextOptions options) : DbContext(options)
     {
-        public DbSet<Worker> Workers { get; set; }
         public DbSet<Resident> Residents { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
@@ -15,8 +14,6 @@ namespace ITI_SC_Project.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new WorkerConfiguration());
-
             modelBuilder.ApplyConfiguration(new ResidentConfiguration());
 
             modelBuilder.ApplyConfiguration(new RoomConfiguration());
