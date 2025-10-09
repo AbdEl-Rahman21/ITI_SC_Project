@@ -1,8 +1,8 @@
-﻿using ITI_SC_Project.Context.Configurations;
+﻿using ITI_SC_Project.Contexts.Configurations;
 using ITI_SC_Project.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITI_SC_Project.Context
+namespace ITI_SC_Project.Contexts
 {
     public class HotelDbContext(DbContextOptions options) : DbContext(options)
     {

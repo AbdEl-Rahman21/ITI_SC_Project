@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ITI_SC_Project.Context.Configurations
+namespace ITI_SC_Project.Contexts.Configurations
 {
     public class RoomTypeConfiguration : IEntityTypeConfiguration<RoomType>
     {
