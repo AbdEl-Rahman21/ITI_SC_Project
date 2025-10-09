@@ -1,4 +1,5 @@
 using ITI_SC_Project.Context;
+using ITI_SC_Project.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace ITI_SC_Project
@@ -16,6 +17,9 @@ namespace ITI_SC_Project
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("sql"));
             });
+
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             var app = builder.Build();
 
