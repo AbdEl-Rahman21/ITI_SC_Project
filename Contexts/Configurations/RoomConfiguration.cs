@@ -13,6 +13,13 @@ namespace ITI_SC_Project.Contexts.Configurations
             builder.Property(r => r.Id)
                    .ValueGeneratedOnAdd();
 
+            builder.Property(r => r.RoomNumber)
+                   .HasMaxLength(10)
+                   .IsRequired();
+
+            builder.HasIndex(r => r.RoomNumber)
+                   .IsUnique();
+
             builder.HasMany(r => r.Bookings)
                    .WithOne(b => b.Room)
                    .HasForeignKey(b => b.RoomId)
