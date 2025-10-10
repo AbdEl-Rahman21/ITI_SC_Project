@@ -23,7 +23,8 @@ namespace ITI_SC_Project.Profiles
 
             CreateMap<Room, RoomViewModel>()
                 .ForMember(dest => dest.RoomTypeName, opt => opt.MapFrom(src => src.RoomType.Name))
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(dest => dest.RoomType, opt => opt.Ignore()); ;
 
             CreateMap<RoomType, RoomTypeViewModel>()
                 .ForMember(dest => dest.BasePrice, opt => opt.MapFrom(src => src.Price))

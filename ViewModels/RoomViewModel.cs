@@ -15,6 +15,7 @@ namespace ITI_SC_Project.ViewModels
         [Display(Name = "Room Type")]
         public int RoomTypeId { get; set; }
 
+        [Display(Name = "Room Type")]
         public string? RoomTypeName { get; set; }
     }
 }
