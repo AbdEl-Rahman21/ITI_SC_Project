@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ITI_SC_Project.Models;
 using ITI_SC_Project.Services;
 using ITI_SC_Project.ViewModels;
@@ -26,14 +25,18 @@ namespace ITI_SC_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,BasePrice")] RoomTypeViewModel roomTypeViewModel)
         {
-            if (ModelState.IsValid)
-            {
-                await roomTypeService.CreateAsync(roomTypeViewModel);
+            if (!ModelState.IsValid) return View(roomTypeViewModel);
 
-                return RedirectToAction(nameof(Index));
+            var result = await roomTypeService.CreateAsync(roomTypeViewModel);
+
+            if (!result.Success)
+            {
+                ModelState.AddModelError("", result.Message);
+
+                return View(roomTypeViewModel);
             }
 
-            return View(roomTypeViewModel);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet("RoomType/Edit/{id}")]
@@ -54,28 +57,18 @@ namespace ITI_SC_Project.Controllers
         {
             if (id != roomTypeViewModel.Id) return NotFound();
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await roomTypeService.UpdateAsync(roomTypeViewModel);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await RoomTypeExists(roomTypeViewModel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+            if (!ModelState.IsValid) return View(roomTypeViewModel);
 
-                return RedirectToAction(nameof(Index));
+            var result = await roomTypeService.UpdateAsync(roomTypeViewModel);
+
+            if (!result.Success)
+            {
+                ModelState.AddModelError("", result.Message);
+
+                return View(roomTypeViewModel);
             }
 
-            return View(roomTypeViewModel);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet("RoomType/Delete/{id}")]
@@ -94,16 +87,16 @@ namespace ITI_SC_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await roomTypeService.DeleteAsync(id);
+            var result = await roomTypeService.DeleteAsync(id);
+
+            if (!result.Success)
+            {
+                TempData["Error"] = result.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
 
             return RedirectToAction(nameof(Index));
-        }
-
-        private async Task<bool> RoomTypeExists(int id)
-        {
-            var roomTypeViewModel = await roomTypeService.GetByIdAsync<RoomTypeViewModel>(id);
-
-            return roomTypeViewModel == null;
         }
     }
 }

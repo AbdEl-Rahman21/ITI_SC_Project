@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ITI_SC_Project.Models;
 using ITI_SC_Project.Services;
 using ITI_SC_Project.ViewModels;
@@ -26,14 +25,18 @@ namespace ITI_SC_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,PriceModifier")] BoardingTypeViewModel boardingTypeViewModel)
         {
-            if (ModelState.IsValid)
-            {
-                await boardingTypeService.CreateAsync(boardingTypeViewModel);
+            if (!ModelState.IsValid) return View(boardingTypeViewModel);
 
-                return RedirectToAction(nameof(Index));
+            var result = await boardingTypeService.CreateAsync(boardingTypeViewModel);
+
+            if (!result.Success)
+            {
+                ModelState.AddModelError("", result.Message);
+
+                return View(boardingTypeViewModel);
             }
 
-            return View(boardingTypeViewModel);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet("BoardingType/Edit/{id}")]
@@ -54,28 +57,18 @@ namespace ITI_SC_Project.Controllers
         {
             if (id != boardingTypeViewModel.Id) return NotFound();
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await boardingTypeService.UpdateAsync(boardingTypeViewModel);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await BoardingTypeExists(boardingTypeViewModel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+            if (!ModelState.IsValid) return View(boardingTypeViewModel);
 
-                return RedirectToAction(nameof(Index));
+            var result = await boardingTypeService.UpdateAsync(boardingTypeViewModel);
+
+            if (!result.Success)
+            {
+                ModelState.AddModelError("", result.Message);
+
+                return View(boardingTypeViewModel);
             }
 
-            return View(boardingTypeViewModel);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet("BoardingType/Delete/{id}")]
@@ -94,16 +87,16 @@ namespace ITI_SC_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await boardingTypeService.DeleteAsync(id);
+            var result = await boardingTypeService.DeleteAsync(id);
+
+            if (!result.Success)
+            {
+                TempData["Error"] = result.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
 
             return RedirectToAction(nameof(Index));
-        }
-
-        private async Task<bool> BoardingTypeExists(int id)
-        {
-            var boardingTypeViewModel = await boardingTypeService.GetByIdAsync<BoardingTypeViewModel>(id);
-
-            return boardingTypeViewModel == null;
         }
     }
 }

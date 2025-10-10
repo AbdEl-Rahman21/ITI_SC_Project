@@ -8,10 +8,10 @@ namespace ITI_SC_Project.Services
 
         Task<TViewModel?> GetByIdAsync<TViewModel>(object id);
 
-        Task CreateAsync<TViewModel>(TViewModel viewModel);
+        Task<ServiceResult> CreateAsync<TViewModel>(TViewModel viewModel);
 
-        Task UpdateAsync<TViewModel>(TViewModel viewModel);
+        Task<ServiceResult> UpdateAsync<TViewModel>(TViewModel viewModel);
 
-        Task DeleteAsync(object id);
+        Task<ServiceResult> DeleteAsync(object id);
     }
 }
