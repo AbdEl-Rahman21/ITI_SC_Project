@@ -6,14 +6,14 @@ using ITI_SC_Project.ViewModels;
 
 namespace ITI_SC_Project.Controllers
 {
-    public class BoardingTypeController(IGenericService<BoardingType> genericService) : Controller
+    public class BoardingTypeController(IGenericService<BoardingType> boardingTypeService) : Controller
     {
-        private readonly IGenericService<BoardingType> genericService = genericService;
+        private readonly IGenericService<BoardingType> boardingTypeService = boardingTypeService;
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await genericService.GetAllAsync<BoardingTypeViewModel>());
+            return View(await boardingTypeService.GetAllAsync<BoardingTypeViewModel>());
         }
 
         [HttpGet]
@@ -28,7 +28,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                await genericService.CreateAsync(boardingTypeViewModel);
+                await boardingTypeService.CreateAsync(boardingTypeViewModel);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -41,7 +41,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (id == null) return NotFound();
 
-            var boardingTypeViewModel = await genericService.GetByIdAsync<BoardingTypeViewModel>(id);
+            var boardingTypeViewModel = await boardingTypeService.GetByIdAsync<BoardingTypeViewModel>(id);
 
             if (boardingTypeViewModel == null) return NotFound();
 
@@ -58,7 +58,7 @@ namespace ITI_SC_Project.Controllers
             {
                 try
                 {
-                    await genericService.UpdateAsync(boardingTypeViewModel);
+                    await boardingTypeService.UpdateAsync(boardingTypeViewModel);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -83,7 +83,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (id == null) return NotFound();
 
-            var boardingTypeViewModel = await genericService.GetByIdAsync<BoardingTypeViewModel>(id);
+            var boardingTypeViewModel = await boardingTypeService.GetByIdAsync<BoardingTypeViewModel>(id);
 
             if (boardingTypeViewModel == null) return NotFound();
 
@@ -94,14 +94,14 @@ namespace ITI_SC_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await genericService.DeleteAsync(id);
+            await boardingTypeService.DeleteAsync(id);
 
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> BoardingTypeExists(int id)
         {
-            var boardingTypeViewModel = await genericService.GetByIdAsync<BoardingTypeViewModel>(id);
+            var boardingTypeViewModel = await boardingTypeService.GetByIdAsync<BoardingTypeViewModel>(id);
 
             return boardingTypeViewModel == null;
         }

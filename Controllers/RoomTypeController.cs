@@ -6,14 +6,14 @@ using ITI_SC_Project.ViewModels;
 
 namespace ITI_SC_Project.Controllers
 {
-    public class RoomTypeController(IGenericService<RoomType> genericService) : Controller
+    public class RoomTypeController(IGenericService<RoomType> roomTypeService) : Controller
     {
-        private readonly IGenericService<RoomType> genericService = genericService;
+        private readonly IGenericService<RoomType> roomTypeService = roomTypeService;
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await genericService.GetAllAsync<RoomTypeViewModel>());
+            return View(await roomTypeService.GetAllAsync<RoomTypeViewModel>());
         }
 
         [HttpGet]
@@ -28,7 +28,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                await genericService.CreateAsync(roomTypeViewModel);
+                await roomTypeService.CreateAsync(roomTypeViewModel);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -41,7 +41,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (id == null) return NotFound();
 
-            var roomTypeViewModel = await genericService.GetByIdAsync<RoomTypeViewModel>(id);
+            var roomTypeViewModel = await roomTypeService.GetByIdAsync<RoomTypeViewModel>(id);
 
             if (roomTypeViewModel == null) return NotFound();
 
@@ -58,7 +58,7 @@ namespace ITI_SC_Project.Controllers
             {
                 try
                 {
-                    await genericService.UpdateAsync(roomTypeViewModel);
+                    await roomTypeService.UpdateAsync(roomTypeViewModel);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -83,7 +83,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (id == null) return NotFound();
 
-            var roomTypeViewModel = await genericService.GetByIdAsync<RoomTypeViewModel>(id);
+            var roomTypeViewModel = await roomTypeService.GetByIdAsync<RoomTypeViewModel>(id);
 
             if (roomTypeViewModel == null) return NotFound();
 
@@ -94,14 +94,14 @@ namespace ITI_SC_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await genericService.DeleteAsync(id);
+            await roomTypeService.DeleteAsync(id);
 
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> RoomTypeExists(int id)
         {
-            var roomTypeViewModel = await genericService.GetByIdAsync<RoomTypeViewModel>(id);
+            var roomTypeViewModel = await roomTypeService.GetByIdAsync<RoomTypeViewModel>(id);
 
             return roomTypeViewModel == null;
         }
