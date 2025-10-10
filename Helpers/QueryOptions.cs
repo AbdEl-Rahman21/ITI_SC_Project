@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace ITI_SC_Project.Repositories
+namespace ITI_SC_Project.Helpers
 {
     public class QueryOptions<TEntity>
     {
