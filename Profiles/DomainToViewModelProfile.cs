@@ -16,10 +16,7 @@ namespace ITI_SC_Project.Profiles
                 .ForMember(dest => dest.BoardingTypeName, opt => opt.MapFrom(src => src.BoardingType.Name))
                 .ReverseMap();
 
-            CreateMap<Resident, ResidentViewModel>()
-                .ForMember(dest => dest.InternalId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ResidentId))
-                .ReverseMap();
+            CreateMap<Resident, ResidentViewModel>().ReverseMap();
 
             CreateMap<Room, RoomViewModel>()
                 .ForMember(dest => dest.RoomTypeName, opt => opt.MapFrom(src => src.RoomType.Name))

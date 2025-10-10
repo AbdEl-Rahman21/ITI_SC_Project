@@ -13,12 +13,13 @@ namespace ITI_SC_Project.Contexts.Configurations
             builder.Property(r => r.Id)
                    .ValueGeneratedOnAdd();
 
-            builder.HasAlternateKey(r => r.ResidentId);
-
             builder.Property(r => r.ResidentId)
                    .HasMaxLength(20)
                    .IsRequired()
                    .IsUnicode(false);
+
+            builder.HasIndex(r => r.ResidentId)
+                   .IsUnique();
 
             builder.Property(r => r.Name)
                    .HasMaxLength(100)

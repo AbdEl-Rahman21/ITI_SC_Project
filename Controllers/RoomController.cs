@@ -4,7 +4,6 @@ using ITI_SC_Project.Services;
 using ITI_SC_Project.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace ITI_SC_Project.Controllers
 {

@@ -6,12 +6,12 @@ namespace ITI_SC_Project.ViewModels
     public class ResidentViewModel
     {
         [ScaffoldColumn(false)]
-        public int InternalId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(20, MinimumLength = 5, ErrorMessage = "Identity number must be between 5 and 20 characters.")]
         [Display(Name = "Identity / Passport Number")]
-        public string Id { get; set; } = null!;
+        public string ResidentId { get; set; } = null!;
 
         [Required]
         [StringLength(100, ErrorMessage = "Name cannot exceed 100 characters.")]
@@ -22,6 +22,7 @@ namespace ITI_SC_Project.ViewModels
         [StringLength(150)]
         public string Email { get; set; } = null!;
 
+        [Required]
         [PhoneNumber]
         [StringLength(20)]
         public string Phone { get; set; } = null!;
