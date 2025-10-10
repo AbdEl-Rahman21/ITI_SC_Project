@@ -1,8 +1,10 @@
-﻿namespace ITI_SC_Project.Services
+﻿using ITI_SC_Project.Repositories;
+
+namespace ITI_SC_Project.Services
 {
     public interface IGenericService<TEntity> where TEntity : class
     {
-        Task<IEnumerable<TViewModel>> GetAllAsync<TViewModel>();
+        Task<IEnumerable<TViewModel>> GetAllAsync<TViewModel>(QueryOptions<TEntity>? queryOptions = null);
 
         Task<TViewModel?> GetByIdAsync<TViewModel>(object id);
 

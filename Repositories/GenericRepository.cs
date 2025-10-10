@@ -4,28 +4,34 @@ using System.Linq.Expressions;
 
 namespace ITI_SC_Project.Repositories
 {
-    public class GenericRepository<T>(HotelDbContext context) : IGenericRepository<T> where T : class
+    public class GenericRepository<TEntity>(HotelDbContext context) : IGenericRepository<TEntity> where TEntity : class
     {
-        private readonly DbSet<T> dbSet = context.Set<T>();
+        private readonly DbSet<TEntity> dbSet = context.Set<TEntity>();
 
-        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, params Expression<Func<T, object>>[] includes)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(QueryOptions<TEntity>? queryOptions = null)
         {
-            IQueryable<T> query = dbSet;
+            IQueryable<TEntity> query = dbSet;
 
-            if (filter != null) query = query.Where(filter);
+            if (queryOptions != null)
+            {
+                if (queryOptions.Filter != null)
+                    query = query.Where(queryOptions.Filter);
 
-            foreach (var include in includes) query = query.Include(include);
+                foreach (var include in queryOptions.Includes)
+                    query = query.Include(include);
 
-            if (orderBy != null) query = orderBy(query);
+                if (queryOptions.OrderBy != null)
+                    query = queryOptions.OrderBy(query);
+            }
 
             return await query.ToListAsync();
         }
 
-        public async Task<T?> GetByIdAsync(object id) => await dbSet.FindAsync(id);
+        public async Task<TEntity?> GetByIdAsync(object id) => await dbSet.FindAsync(id);
 
-        public async Task AddAsync(T entity) => await dbSet.AddAsync(entity);
+        public async Task AddAsync(TEntity entity) => await dbSet.AddAsync(entity);
 
-        public void Update(T entity) => dbSet.Update(entity);
+        public void Update(TEntity entity) => dbSet.Update(entity);
 
         public async Task DeleteAsync(object id)
         {

@@ -9,9 +9,9 @@ namespace ITI_SC_Project.Services
         private readonly IUnitOfWork unitOfWork = unitOfWork;
         private readonly IGenericRepository<TEntity> repository = unitOfWork.GetRepository<IGenericRepository<TEntity>>();
 
-        public async Task<IEnumerable<TViewModel>> GetAllAsync<TViewModel>()
+        public async Task<IEnumerable<TViewModel>> GetAllAsync<TViewModel>(QueryOptions<TEntity>? queryOptions = null)
         {
-            var entities = await repository.GetAllAsync();
+            var entities = await repository.GetAllAsync(queryOptions);
 
             return mapper.Map<IEnumerable<TViewModel>>(entities);
         }

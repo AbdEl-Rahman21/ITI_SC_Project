@@ -1,16 +1,14 @@
-﻿using System.Linq.Expressions;
-
-namespace ITI_SC_Project.Repositories
+﻿namespace ITI_SC_Project.Repositories
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<TEntity> where TEntity : class
     {
-        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, params Expression<Func<T, object>>[] includes);
+        Task<IEnumerable<TEntity>> GetAllAsync(QueryOptions<TEntity>? queryOptions = null);
 
-        Task<T?> GetByIdAsync(object id);
+        Task<TEntity?> GetByIdAsync(object id);
 
-        Task AddAsync(T entity);
+        Task AddAsync(TEntity entity);
 
-        void Update(T entity);
+        void Update(TEntity entity);
 
         Task DeleteAsync(object id);
     }
