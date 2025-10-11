@@ -14,11 +14,11 @@ namespace ITI_SC_Project.Repositories
 
             if (queryOptions != null)
             {
-                if (queryOptions.Filter != null)
-                    query = query.Where(queryOptions.Filter);
-
                 foreach (var include in queryOptions.Includes)
                     query = query.Include(include);
+
+                if (queryOptions.Filter != null)
+                    query = query.Where(queryOptions.Filter);
 
                 if (queryOptions.OrderBy != null)
                     query = queryOptions.OrderBy(query);

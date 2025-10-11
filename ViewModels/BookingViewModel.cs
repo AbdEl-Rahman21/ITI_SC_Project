@@ -32,7 +32,9 @@ namespace ITI_SC_Project.ViewModels
         [Display(Name = "Boarding Type")]
         public int BoardingTypeId { get; set; }
 
+        public string? RoomNumber {  get; set; }
         public string? RoomTypeName { get; set; }
+        public string? ResidentCode { get; set; }
         public string? ResidentName { get; set; }
         public string? BoardingTypeName { get; set; }
     }
