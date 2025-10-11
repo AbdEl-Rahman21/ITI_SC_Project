@@ -16,13 +16,13 @@ namespace ITI_SC_Project.Services
         {
             int nights = (bookingViewModel.CheckOutDate.DayNumber - bookingViewModel.CheckInDate.DayNumber);
 
-            var roomViewModel = await roomService.GetByIdAsync<RoomViewModel>(bookingViewModel.RoomId);
+            var roomViewModel = await roomService.GetSingleAsync<RoomViewModel>(r => r.Id == bookingViewModel.RoomId);
 
-            var roomTypeViewModel = await roomTypeService.GetByIdAsync<RoomTypeViewModel>(roomViewModel.RoomTypeId);
+            var roomTypeViewModel = await roomTypeService.GetSingleAsync<RoomTypeViewModel>(rt => rt.Id == roomViewModel.RoomTypeId);
 
             decimal roomPrice = roomTypeViewModel.BasePrice;
 
-            var boardingTypeViewModel = await boardingTypeService.GetByIdAsync<BoardingTypeViewModel>(bookingViewModel.BoardingTypeId);
+            var boardingTypeViewModel = await boardingTypeService.GetSingleAsync<BoardingTypeViewModel>(bt => bt.Id == bookingViewModel.BoardingTypeId);
 
             decimal boardingTypeModifier = boardingTypeViewModel.PriceModifier / 100;
 

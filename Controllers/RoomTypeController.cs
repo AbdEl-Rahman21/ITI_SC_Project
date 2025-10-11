@@ -44,7 +44,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (id == null) return NotFound();
 
-            var roomTypeViewModel = await roomTypeService.GetByIdAsync<RoomTypeViewModel>(id);
+            var roomTypeViewModel = await roomTypeService.GetSingleAsync<RoomTypeViewModel>(rt => rt.Id == id);
 
             if (roomTypeViewModel == null) return NotFound();
 
@@ -76,7 +76,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (id == null) return NotFound();
 
-            var roomTypeViewModel = await roomTypeService.GetByIdAsync<RoomTypeViewModel>(id);
+            var roomTypeViewModel = await roomTypeService.GetSingleAsync<RoomTypeViewModel>(rt => rt.Id == id);
 
             if (roomTypeViewModel == null) return NotFound();
 

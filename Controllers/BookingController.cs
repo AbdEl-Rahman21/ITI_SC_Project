@@ -115,7 +115,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (id == null) return NotFound();
 
-            var bookingViewModel = await bookingService.GetByIdAsync<BookingViewModel>(id);
+            var bookingViewModel = await bookingService.GetSingleAsync<BookingViewModel>(b => b.Id == id);
 
             if (bookingViewModel == null) return NotFound();
 
@@ -184,7 +184,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (id == null) return NotFound();
 
-            var bookingViewModel = await bookingService.GetByIdAsync<BookingViewModel>(id);
+            var bookingViewModel = await bookingService.GetSingleAsync<BookingViewModel>(b => b.Id == id);
 
             if (bookingViewModel == null) return NotFound();
 

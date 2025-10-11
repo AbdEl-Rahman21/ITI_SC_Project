@@ -44,7 +44,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (id == null) return NotFound();
 
-            var boardingTypeViewModel = await boardingTypeService.GetByIdAsync<BoardingTypeViewModel>(id);
+            var boardingTypeViewModel = await boardingTypeService.GetSingleAsync<BoardingTypeViewModel>(bt => bt.Id == id);
 
             if (boardingTypeViewModel == null) return NotFound();
 
@@ -76,7 +76,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (id == null) return NotFound();
 
-            var boardingTypeViewModel = await boardingTypeService.GetByIdAsync<BoardingTypeViewModel>(id);
+            var boardingTypeViewModel = await boardingTypeService.GetSingleAsync<BoardingTypeViewModel>(bt => bt.Id == id);
 
             if (boardingTypeViewModel == null) return NotFound();
 

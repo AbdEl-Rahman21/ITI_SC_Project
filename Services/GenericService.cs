@@ -4,6 +4,8 @@ using ITI_SC_Project.Helpers;
 using ITI_SC_Project.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
+using System.Linq.Expressions;
 
 namespace ITI_SC_Project.Services
 {
@@ -20,11 +22,11 @@ namespace ITI_SC_Project.Services
             return await query.ProjectTo<TViewModel>(mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public async Task<TViewModel?> GetByIdAsync<TViewModel>(object id)
+        public async Task<TViewModel?> GetSingleAsync<TViewModel>(Expression<Func<TEntity, bool>> predicate)
         {
-            var entity = await repository.GetByIdAsync(id);
+            var query = repository.Query(predicate);
 
-            return mapper.Map<TViewModel>(entity);
+            return await query.ProjectTo<TViewModel>(mapper.ConfigurationProvider).FirstOrDefaultAsync();
         }
 
         public async Task<ServiceResult> CreateAsync<TViewModel>(TViewModel viewModel)
