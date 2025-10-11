@@ -1,0 +1,51 @@
+﻿@model SelectDatesViewModel
+
+@{
+    ViewData["Title"] = "Select Dates";
+}
+
+<h1>Select Dates</h1>
+
+<h4>Dates</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SelectDates">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="ResidentId" />
+            <div class="form-group">
+                <label asp-for="ResidentCode" class="control-label"></label>
+                <input asp-for="ResidentCode" class="form-control" readonly />
+                <span asp-validation-for="ResidentCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ResidentName" class="control-label"></label>
+                <input asp-for="ResidentName" class="form-control" readonly />
+                <span asp-validation-for="ResidentName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckIn" class="control-label"></label>
+                <input asp-for="CheckIn" class="form-control" />
+                <span asp-validation-for="CheckIn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckOut" class="control-label"></label>
+                <input asp-for="CheckOut" class="form-control" />
+                <span asp-validation-for="CheckOut" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Select Dates" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

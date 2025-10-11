@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ITI_SC_Project.Controllers
 {
-    public class BookingController(IGenericService<Booking> bookingService, IGenericService<Room> roomService, IGenericService<BoardingType> boardingTypeService) : Controller
+    public class BookingController(IBookingService bookingService, IGenericService<Room> roomService, IGenericService<BoardingType> boardingTypeService) : Controller
     {
-        private readonly IGenericService<Booking> bookingService = bookingService;
+        private readonly IBookingService bookingService = bookingService;
         private readonly IGenericService<Room> roomService = roomService;
         private readonly IGenericService<BoardingType> boardingTypeService = boardingTypeService;
 
@@ -39,19 +39,26 @@ namespace ITI_SC_Project.Controllers
         {
             if (!ModelState.IsValid) return View(selectDatesViewModel);
 
-            return RedirectToAction(nameof(Create), selectDatesViewModel);
+            return RedirectToAction(nameof(Create), new
+            {
+                selectDatesViewModel.ResidentId,
+                selectDatesViewModel.ResidentName,
+                selectDatesViewModel.ResidentCode,
+                CheckInDate = selectDatesViewModel.CheckIn.ToString("yyyy-MM-dd"),
+                CheckOutDate = selectDatesViewModel.CheckOut.ToString("yyyy-MM-dd")
+            });
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create(SelectDatesViewModel selectDatesViewModel)
+        public async Task<IActionResult> Create(BookingViewModel bookingViewModel)
         {
             var options = new QueryOptions<Room>
             {
                 Includes = { r => r.Bookings },
-                Filter = r => !r.Bookings.Any(b => (selectDatesViewModel.CheckIn < b.CheckOutDate) && (selectDatesViewModel.CheckOut > b.CheckInDate))
+                Filter = r => !r.Bookings.Any(b => (bookingViewModel.CheckInDate < b.CheckOutDate) && (bookingViewModel.CheckOutDate > b.CheckInDate))
             };
 
-            ViewBag.room = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
+            ViewBag.rooms = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
 
             ViewBag.boardingtypes = new SelectList(await boardingTypeService.GetAllAsync<BoardingTypeViewModel>(), "Id", "Name");
 
@@ -60,7 +67,7 @@ namespace ITI_SC_Project.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CheckInDate,CheckOutDate,TotalCost,RoomId,ResidentId,BoardingTypeId,RoomNumber,RoomTypeName,ResidentCode,ResidentName,BoardingTypeName")] BookingViewModel bookingViewModel)
+        public async Task<IActionResult> CreateBooking([Bind("Id,CheckInDate,CheckOutDate,RoomId,ResidentId,BoardingTypeId,RoomNumber,ResidentCode,ResidentName,BoardingTypeName")] BookingViewModel bookingViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -70,12 +77,14 @@ namespace ITI_SC_Project.Controllers
                     Filter = r => !r.Bookings.Any(b => (bookingViewModel.CheckInDate < b.CheckOutDate) && (bookingViewModel.CheckOutDate > b.CheckInDate))
                 };
 
-                ViewBag.room = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
+                ViewBag.rooms = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
 
                 ViewBag.boardingtypes = new SelectList(await boardingTypeService.GetAllAsync<BoardingTypeViewModel>(), "Id", "Name");
 
                 return View(bookingViewModel);
             }
+
+            bookingViewModel.TotalCost = await bookingService.CalculateBookingCostAsync(bookingViewModel);
 
             var result = await bookingService.CreateAsync(bookingViewModel);
 
@@ -89,12 +98,14 @@ namespace ITI_SC_Project.Controllers
                     Filter = r => !r.Bookings.Any(b => (bookingViewModel.CheckInDate < b.CheckOutDate) && (bookingViewModel.CheckOutDate > b.CheckInDate))
                 };
 
-                ViewBag.room = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
+                ViewBag.rooms = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
 
                 ViewBag.boardingtypes = new SelectList(await boardingTypeService.GetAllAsync<BoardingTypeViewModel>(), "Id", "Name");
 
                 return View(bookingViewModel);
             }
+
+            TempData["Success"] = $"Booking Cost: {bookingViewModel.TotalCost}";
 
             return RedirectToAction(nameof(Index));
         }
@@ -114,7 +125,7 @@ namespace ITI_SC_Project.Controllers
                 Filter = r => !r.Bookings.Any(b => (bookingViewModel.CheckInDate < b.CheckOutDate) && (bookingViewModel.CheckOutDate > b.CheckInDate))
             };
 
-            ViewBag.room = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
+            ViewBag.rooms = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
 
             ViewBag.boardingtypes = new SelectList(await boardingTypeService.GetAllAsync<BoardingTypeViewModel>(), "Id", "Name");
 
@@ -123,7 +134,7 @@ namespace ITI_SC_Project.Controllers
 
         [HttpPost("Booking/Edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CheckInDate,CheckOutDate,TotalCost,RoomId,ResidentId,BoardingTypeId,RoomNumber,RoomTypeName,ResidentCode,ResidentName,BoardingTypeName")] BookingViewModel bookingViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CheckInDate,CheckOutDate,RoomId,ResidentId,BoardingTypeId,RoomNumber,ResidentCode,ResidentName,BoardingTypeName")] BookingViewModel bookingViewModel)
         {
             if (id != bookingViewModel.Id) return NotFound();
 
@@ -135,12 +146,14 @@ namespace ITI_SC_Project.Controllers
                     Filter = r => !r.Bookings.Any(b => (bookingViewModel.CheckInDate < b.CheckOutDate) && (bookingViewModel.CheckOutDate > b.CheckInDate))
                 };
 
-                ViewBag.room = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
+                ViewBag.rooms = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
 
                 ViewBag.boardingtypes = new SelectList(await boardingTypeService.GetAllAsync<BoardingTypeViewModel>(), "Id", "Name");
 
                 return View(bookingViewModel);
             }
+
+            bookingViewModel.TotalCost = await bookingService.CalculateBookingCostAsync(bookingViewModel);
 
             var result = await bookingService.UpdateAsync(bookingViewModel);
 
@@ -154,12 +167,14 @@ namespace ITI_SC_Project.Controllers
                     Filter = r => !r.Bookings.Any(b => (bookingViewModel.CheckInDate < b.CheckOutDate) && (bookingViewModel.CheckOutDate > b.CheckInDate))
                 };
 
-                ViewBag.room = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
+                ViewBag.rooms = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
 
                 ViewBag.boardingtypes = new SelectList(await boardingTypeService.GetAllAsync<BoardingTypeViewModel>(), "Id", "Name");
 
                 return View(bookingViewModel);
             }
+
+            TempData["Success"] = $"Booking Cost: {bookingViewModel.TotalCost}";
 
             return RedirectToAction(nameof(Index));
         }

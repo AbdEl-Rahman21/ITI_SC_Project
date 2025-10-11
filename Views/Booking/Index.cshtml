@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ITI_SC_Project.ViewModels.BookingViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-danger">@TempData["Success"]</div>
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckInDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckOutDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomTypeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResidentCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResidentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BoardingTypeName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckInDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckOutDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalCost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResidentCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResidentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BoardingTypeName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
