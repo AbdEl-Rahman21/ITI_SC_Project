@@ -1,4 +1,5 @@
 ﻿using ITI_SC_Project.Helpers;
+using System.Linq.Expressions;
 
 namespace ITI_SC_Project.Repositories
 {
@@ -6,7 +7,7 @@ namespace ITI_SC_Project.Repositories
     {
         IQueryable<TEntity> GetAll(QueryOptions<TEntity>? queryOptions = null);
 
-        Task<TEntity?> GetByIdAsync(object id);
+        IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> predicate);
 
         Task AddAsync(TEntity entity);
 

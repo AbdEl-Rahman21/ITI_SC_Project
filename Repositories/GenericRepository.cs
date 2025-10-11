@@ -1,6 +1,7 @@
 ﻿using ITI_SC_Project.Contexts;
 using ITI_SC_Project.Helpers;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ITI_SC_Project.Repositories
 {
@@ -27,7 +28,10 @@ namespace ITI_SC_Project.Repositories
             return query;
         }
 
-        public async Task<TEntity?> GetByIdAsync(object id) => await dbSet.FindAsync(id);
+        public IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> predicate)
+        {
+            return dbSet.Where(predicate);
+        }
 
         public async Task AddAsync(TEntity entity) => await dbSet.AddAsync(entity);
 

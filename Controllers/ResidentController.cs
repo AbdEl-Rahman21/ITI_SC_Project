@@ -44,7 +44,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (id == null) return NotFound();
 
-            var residentViewModel = await residentService.GetByIdAsync<ResidentViewModel>(id);
+            var residentViewModel = await residentService.GetSingleAsync<ResidentViewModel>(r => r.Id == id);
 
             if (residentViewModel == null) return NotFound();
 
@@ -76,7 +76,7 @@ namespace ITI_SC_Project.Controllers
         {
             if (id == null) return NotFound();
 
-            var residentViewModel = await residentService.GetByIdAsync<ResidentViewModel>(id);
+            var residentViewModel = await residentService.GetSingleAsync<ResidentViewModel>(r => r.Id == id);
 
             if (residentViewModel == null) return NotFound();
 

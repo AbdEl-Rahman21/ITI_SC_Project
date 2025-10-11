@@ -1,4 +1,5 @@
 ﻿using ITI_SC_Project.Helpers;
+using System.Linq.Expressions;
 
 namespace ITI_SC_Project.Services
 {
@@ -6,7 +7,7 @@ namespace ITI_SC_Project.Services
     {
         Task<IEnumerable<TViewModel>> GetAllAsync<TViewModel>(QueryOptions<TEntity>? queryOptions = null);
 
-        Task<TViewModel?> GetByIdAsync<TViewModel>(object id);
+        Task<TViewModel?> GetSingleAsync<TViewModel>(Expression<Func<TEntity, bool>> predicate);
 
         Task<ServiceResult> CreateAsync<TViewModel>(TViewModel viewModel);
 
