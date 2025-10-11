@@ -122,7 +122,10 @@ namespace ITI_SC_Project.Controllers
             var options = new QueryOptions<Room>
             {
                 Includes = { r => r.Bookings },
-                Filter = r => !r.Bookings.Any(b => (bookingViewModel.CheckInDate < b.CheckOutDate) && (bookingViewModel.CheckOutDate > b.CheckInDate))
+                Filter = r => !r.Bookings.Any(b =>
+                    b.Id != bookingViewModel.Id &&
+                    (bookingViewModel.CheckInDate < b.CheckOutDate) &&
+                    (bookingViewModel.CheckOutDate > b.CheckInDate))
             };
 
             ViewBag.rooms = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
@@ -143,7 +146,10 @@ namespace ITI_SC_Project.Controllers
                 var options = new QueryOptions<Room>
                 {
                     Includes = { r => r.Bookings },
-                    Filter = r => !r.Bookings.Any(b => (bookingViewModel.CheckInDate < b.CheckOutDate) && (bookingViewModel.CheckOutDate > b.CheckInDate))
+                    Filter = r => !r.Bookings.Any(b =>
+                        b.Id != bookingViewModel.Id &&
+                        (bookingViewModel.CheckInDate < b.CheckOutDate) &&
+                        (bookingViewModel.CheckOutDate > b.CheckInDate))
                 };
 
                 ViewBag.rooms = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
@@ -164,7 +170,10 @@ namespace ITI_SC_Project.Controllers
                 var options = new QueryOptions<Room>
                 {
                     Includes = { r => r.Bookings },
-                    Filter = r => !r.Bookings.Any(b => (bookingViewModel.CheckInDate < b.CheckOutDate) && (bookingViewModel.CheckOutDate > b.CheckInDate))
+                    Filter = r => !r.Bookings.Any(b =>
+                        b.Id != bookingViewModel.Id &&
+                        (bookingViewModel.CheckInDate < b.CheckOutDate) &&
+                        (bookingViewModel.CheckOutDate > b.CheckInDate))
                 };
 
                 ViewBag.rooms = new SelectList(await roomService.GetAllAsync<RoomViewModel>(options), "Id", "RoomNumber");
