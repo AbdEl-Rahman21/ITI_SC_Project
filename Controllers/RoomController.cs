@@ -1,5 +1,4 @@
-﻿using ITI_SC_Project.Helpers;
-using ITI_SC_Project.Models;
+﻿using ITI_SC_Project.Models;
 using ITI_SC_Project.Services;
 using ITI_SC_Project.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +14,7 @@ namespace ITI_SC_Project.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var options = new QueryOptions<Room>
-            {
-                Includes = { r => r.RoomType }
-            };
-
-            return View(await roomService.GetAllAsync<RoomViewModel>(options));
+            return View(await roomService.GetAllAsync<RoomViewModel>());
         }
 
         [HttpGet]

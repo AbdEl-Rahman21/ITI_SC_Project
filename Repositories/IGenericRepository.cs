@@ -4,7 +4,7 @@ namespace ITI_SC_Project.Repositories
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        Task<IEnumerable<TEntity>> GetAllAsync(QueryOptions<TEntity>? queryOptions = null);
+        IQueryable<TEntity> GetAll(QueryOptions<TEntity>? queryOptions = null);
 
         Task<TEntity?> GetByIdAsync(object id);
 

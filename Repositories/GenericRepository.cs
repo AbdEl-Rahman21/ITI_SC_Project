@@ -8,7 +8,7 @@ namespace ITI_SC_Project.Repositories
     {
         private readonly DbSet<TEntity> dbSet = context.Set<TEntity>();
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(QueryOptions<TEntity>? queryOptions = null)
+        public IQueryable<TEntity> GetAll(QueryOptions<TEntity>? queryOptions = null)
         {
             IQueryable<TEntity> query = dbSet;
 
@@ -24,7 +24,7 @@ namespace ITI_SC_Project.Repositories
                     query = queryOptions.OrderBy(query);
             }
 
-            return await query.ToListAsync();
+            return query;
         }
 
         public async Task<TEntity?> GetByIdAsync(object id) => await dbSet.FindAsync(id);

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using ITI_SC_Project.Helpers;
 using ITI_SC_Project.Repositories;
 using Microsoft.Data.SqlClient;
@@ -14,9 +15,9 @@ namespace ITI_SC_Project.Services
 
         public async Task<IEnumerable<TViewModel>> GetAllAsync<TViewModel>(QueryOptions<TEntity>? queryOptions = null)
         {
-            var entities = await repository.GetAllAsync(queryOptions);
+            var query = repository.GetAll(queryOptions);
 
-            return mapper.Map<IEnumerable<TViewModel>>(entities);
+            return await query.ProjectTo<TViewModel>(mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<TViewModel?> GetByIdAsync<TViewModel>(object id)
